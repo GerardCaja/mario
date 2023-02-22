@@ -8,9 +8,15 @@ public class GroundSensor : MonoBehaviour
 
     public bool isGrounded;
 
+    SFXManager sfxManager;
+
+    SoundManager soundManager;
+
     void Awake() 
     {
         controller = GetComponentInParent<PlayerController>();
+        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -24,10 +30,20 @@ public class GroundSensor : MonoBehaviour
         {
             Debug.Log("Goomba muerto");
             Destroy(other.gameObject);
+            
+            sfxManager.GoombaDeath();
+            
+            Enemy goomba = other.gameObject. GetComponent<Enemy>();
+            goomba.Die();
         }
+      
+      
         if(other.gameObject.tag == "DeadZone")
         {
             Debug.Log("Estoy muerto");
+
+            soundManager.StopBGM();
+            sfxManager.MarioDeath();
         }
     }
 
