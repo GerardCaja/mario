@@ -18,14 +18,13 @@ public class Camara : MonoBehaviour
     void Start()
     {
         target = GameObject.Find("Mario_0").GetComponent<Transform>();
+        Debug.Log(target.position);
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        if(target != null)
-        {
-             //posicion deseada de la camara
+        //posicion deseada de la camara
         Vector3 desiredPosition = target.position + offset;
 
         //limitamos la posicion en la x
@@ -39,7 +38,5 @@ public class Camara : MonoBehaviour
         Vector3 lerpedPosition = Vector3.Lerp(transform.position, clamedPosition, interpolationRatio);
 
         transform.position = clamedPosition;
-        }
-       
     }
 }
