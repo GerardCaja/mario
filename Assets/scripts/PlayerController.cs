@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     string texto = "Hello World";
     public Transform initialPoint;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     private Rigidbody2D rBody;
-    private GroundSensor sensor;
+    public GroundSensor sensor;
 
     public Animator anim;
     float horizontal;
