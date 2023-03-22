@@ -14,29 +14,35 @@ public class Camara : MonoBehaviour
 
     public float interpolationRatio;
 
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.Find("Mario_0").GetComponent<Transform>();
-        Debug.Log(target.position);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        //posicion deseada de la camara
-        Vector3 desiredPosition = target.position + offset;
+        is(target != null && gameManager.isGameOver == false)
+        {
+            //posicion deseada de la camara
+            Vector3 desiredPosition = target.position + offset;
 
-        //limitamos la posicion en la x
-        float clampX = Mathf.Clamp(desiredPosition.x, limitX.x , limitX.y);
-        //limitamos la posicion en la y
-        float clampY = Mathf.Clamp(desiredPosition.y, limitX.x , limitX.y);
+            //limitamos la posicion en la x
+            float clampX = Mathf.Clamp(desiredPosition.x, limitX.x , limitX.y);
+            //limitamos la posicion en la y
+            float clampY = Mathf.Clamp(desiredPosition.y, limitX.x , limitX.y);
 
-        //posicion limitada en X e Y
-        Vector3 clamedPosition = new Vector3(clampX, clampY, desiredPosition.z);
+            //posicion limitada en X e Y
+            Vector3 clamedPosition = new Vector3(clampX, clampY, desiredPosition.z);
 
-        Vector3 lerpedPosition = Vector3.Lerp(transform.position, clamedPosition, interpolationRatio);
+            Vector3 lerpedPosition = Vector3.Lerp(transform.position, clamedPosition, interpolationRatio);
 
         transform.position = clamedPosition;
+        }
+    
     }
 }

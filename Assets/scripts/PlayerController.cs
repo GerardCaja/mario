@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
     float horizontal;
     float vertical;
+    GameManager gameManager;
+    SFXManager sfxManager;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
         rBody = GetComponent<Rigidbody2D>();
         sensor = GameObject.Find("GroundSensor").GetComponent<GroundSensor>();
         anim = GetComponent<Animator>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
 
         playerHealth = 10;
         Debug.Log(texto);
@@ -33,30 +37,49 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        if(gameManager.isGameOver == false)
+        {
+                    horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
 
-        transform.position += new Vector3(horizontal, vertical, 0) * playerSpeed * Time.deltaTime;
+            transform.position += new Vector3(horizontal, vertical, 0) * playerSpeed * Time.deltaTime;
 
-        if(horizontal < 0) 
-        {
-            spriteRenderer.flipX = true;
-            anim.SetBool("IsRunning", true);
-        }
-        else if(horizontal > 0)
-        {
-            spriteRenderer.flipX = false;
-            anim.SetBool("IsRunning", true);
-        }
-        else 
-        {
-            anim.SetBool("IsRunning", false);
-        }
+            if(horizontal < 0) 
+            {
+                spriteRenderer.flipX = true;
+                anim.SetBool("IsRunning", true);
+            }
+            else if(horizontal > 0)
+            {
+                spriteRenderer.flipX = false;
+                anim.SetBool("IsRunning", true);
+            }
+            else 
+            {
+                anim.SetBool("IsRunning", false);
+            }
 
-        if(Input.GetButtonDown("Jump") && sensor.isGrounded)
+            if(Input.GetButtonDown("Jump") && sensor.isGrounded)
+            {
+                rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                anim.SetBool("IsJumping", true);
+            }
+        }
+   
+    }
+
+    void FixedUpdate()
+    {
+        rBody.velocity = new Vector2(horizontal * playerSpeed, rBody.velocity.y);
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.tag == "coin")
         {
-            rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            anim.SetBool("IsJumping", true);
+            gameManager.AddCoin();
+            sfxManager.CoinSound();
+            Destroy(collider.gameObject);
         }
     }
 }
