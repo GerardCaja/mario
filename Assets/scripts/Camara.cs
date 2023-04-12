@@ -26,7 +26,7 @@ public class Camara : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        is(target != null && gameManager.isGameOver == false)
+        if(target != null && gameManager.isGameOver == false)
         {
             //posicion deseada de la camara
             Vector3 desiredPosition = target.position + offset;

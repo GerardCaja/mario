@@ -27,7 +27,7 @@ public class SFXManager : MonoBehaviour
 
     }
 
-    public void coinSound
+    public void CoinSound()
     {
         
     }

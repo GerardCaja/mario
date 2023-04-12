@@ -44,6 +44,6 @@ public class GameManager : MonoBehaviour
     public void AddCoin()
     {
         coins++;
-        coinText.text = coins.ToString;
+        coinText.text = coins.ToString();
     }
 }
