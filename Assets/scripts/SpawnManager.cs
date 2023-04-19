@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+     public GameObject enemyPrefab;
     public int enemiesToSpawn;
 
     //public Transform[] spawnPositions = new Transform[3]
@@ -59,3 +59,4 @@ public class SpawnManager : MonoBehaviour
         enemiesToSpawn--;
     }
 }
+   
